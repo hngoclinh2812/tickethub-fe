@@ -1,0 +1,14 @@
+# Chạy FE đã build bằng Nginx (giống image deploy lên AWS).
+# BE chạy riêng trên máy ở cổng 8080 (xem repo backend).
+services:
+  frontend:
+    build: .
+    image: tickethub-fe:latest
+    container_name: tickethub-fe
+    ports:
+      - "3000:80"
+    environment:
+      BACKEND_URL: ${BACKEND_URL:-http://host.docker.internal:8080}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
