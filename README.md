@@ -97,3 +97,29 @@ tickethub-fe/
 ├── vite.config.ts
 └── package.json
 ```
+
+## Việc còn lại
+
+### Kiểm tra sau khi dọn khỏi Figma Make
+
+- [ ] `pnpm build` chạy không lỗi (đã sửa 4 lỗi cú pháp trong `api.ts` / `App.tsx`, nhưng chưa build thử được bằng Vite).
+- [ ] `docker compose up -d --build`, mở `http://localhost:3000` thấy giao diện.
+
+### Nối với backend thật (`tickethub-service`)
+
+- [ ] Đặt `USE_MOCK = false` trong `src/api.ts`, chạy BE ở cổng 8080 rồi `pnpm dev`.
+- [ ] Đổi kiểu `id` của `EventItem` từ `string` sang `number` (BE trả `id: 1`), cập nhật `eventId` trong `createOrder` và các mock event cho khớp.
+- [ ] Sửa badge Flash sale: hiện so cứng `event.id === "flash-sale"`, sẽ mất khi dùng id số của BE. Có thể dựa vào tên sự kiện hoặc số vé (`total`/`remaining`) thay vì id.
+- [ ] Footer: đọc header `X-Instance-Id` / `X-Az` từ response gần nhất trong hàm `request()`, thay vì chỉ gọi `whoami` một lần lúc tải trang.
+- [ ] Thêm `timestamp` vào kiểu `Instance` (BE trả `{instanceId, az, timestamp}`).
+- [ ] Kiểm tra luồng đặt vé end-to-end: `PENDING` → `CONFIRMED` / `FAILED`, hiển thị đúng instance xử lý đơn.
+
+### Mock mode và trang Demo
+
+- [ ] Mock: xử lý mọi đơn `PENDING` đã đến hạn mỗi khi mock nhận request bất kỳ, không chỉ khi có người polling đơn đó. Hiện các đơn bắn đồng loạt ở trang Demo không trừ vé, nên kịch bản "hết vé trong lúc điền form" không chạy.
+- [ ] Mục "Mô phỏng người mua khác": cập nhật số vé còn lại mỗi 1 giây (hiện là 2 giây).
+
+### Khác
+
+- [ ] Thay `public/favicon.svg` mặc định của Figma Make bằng icon TicketHub.
+- [ ] Push repo lên GitHub (đã `git init`).
